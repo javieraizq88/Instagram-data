@@ -55,6 +55,26 @@ class Following(Base):
             "user_id": self.user_id
         }
 
+class Post(Base):
+    __tablename__ = 'post'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    photo_id = Column(Integer, ForeignKey('photo.id')) # tabla imaginaria
+    photo = Column(String(250), nullable=False)
+    description = Column(String(250), nullable=False)
+    location = Column(String(250), nullable=False)
+
+    def serialize(self): 
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "photo_id": self.photo_id,
+            "photo": self.photo,
+            "description": self.description,
+            "location": self.location
+        }
+
+
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagramUML.png')
