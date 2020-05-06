@@ -79,7 +79,8 @@ class Comments(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     post_id = Column(Integer, ForeignKey('post.id'))
-    photo_id = Column(Integer, ForeignKey('photo.id'))
+    photo_id = Column(Integer, ForeignKey('photo.id'))# tabla no existe
+    photo = Column(String(250), nullable=False)
     text = Column(String(250), nullable=False)
     icon = Column(String(250), nullable=False)
     like = Column(Integer, nullable=False)
@@ -90,10 +91,34 @@ class Comments(Base):
             "user_id": self.user_id,
             "post_id": self.post_id,
             "photo_id": self.photo_id,
+            "photo": self.photo,
             "text": self.text,
             "icon": self.icon,
             "like": self.like,
         }
+
+
+class Direct(Base):
+    __tablename__ = 'direct'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    messege_id = Column(Integer, ForeignKey('messege.id'))# tabla no existe
+    userOtro_id = Column(Integer, ForeignKey('userOtro.id'))# tabla no existe
+    photo_id = Column(Integer, ForeignKey('photo.id'))# tabla no existe
+    text = Column(String(250), nullable=False)
+    icon = Column(String(250), nullable=False)
+
+    def serialize(self): 
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "messege_id": self.messege_id,
+            "userOtro_id": self.userOtro_id,
+            "photo_id": self.photo_id,
+            "text": self.text,
+            "icon": self.icon
+        }
+
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagramUML.png')
