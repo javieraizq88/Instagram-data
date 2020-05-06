@@ -21,7 +21,6 @@ class User(Base):
     follower_id = Column(Integer, ForeignKey('follower.id'))
     following_id = Column(Integer, ForeignKey('following.id'))
 
-
     def serialize(self): # cambiar el objeto python a JSON
         # son los datos q devuelve de la tabla
         return {
@@ -31,6 +30,17 @@ class User(Base):
             "followings": self.followings,
             "follower_id": self.follower_id,
             "following_id": self.following_id
+        }
+
+class Follower(Base):
+    __tablename__ = 'follower'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+
+    def serialize(self): 
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
         }
 
 ## Draw from SQLAlchemy base
