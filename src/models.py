@@ -74,7 +74,26 @@ class Post(Base):
             "location": self.location
         }
 
+class Comments(Base):
+    __tablename__ = 'comments'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    post_id = Column(Integer, ForeignKey('post.id'))
+    photo_id = Column(Integer, ForeignKey('photo.id'))
+    text = Column(String(250), nullable=False)
+    icon = Column(String(250), nullable=False)
+    like = Column(Integer, nullable=False)
 
+    def serialize(self): 
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "post_id": self.post_id,
+            "photo_id": self.photo_id,
+            "text": self.text,
+            "icon": self.icon,
+            "like": self.like,
+        }
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagramUML.png')
