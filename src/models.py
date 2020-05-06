@@ -8,26 +8,30 @@ from eralchemy import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
+
+class User(Base):
+    __tablename__ = 'user'
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
+    userName = Column(String(250), nullable=False)
+    password = Column(String(250), nullable=False)
+    email = Column(String(250), nullable=False)
+    followings = Column(String(250), nullable=False)
+    follower_id = Column(Integer, ForeignKey('follower.id'))
+    following_id = Column(Integer, ForeignKey('following.id'))
 
-class Address(Base):
-    __tablename__ = 'address'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
 
-    def to_dict(self):
-        return {}
+    def serialize(self): # cambiar el objeto python a JSON
+        # son los datos q devuelve de la tabla
+        return {
+            "id": self.id,
+            "userName": self.userName,
+            "email": self.email,
+            "followings": self.followings,
+            "follower_id": self.follower_id,
+            "following_id": self.following_id
+        }
 
 ## Draw from SQLAlchemy base
-render_er(Base, 'diagram.png')
+render_er(Base, 'diagramUML.png')
