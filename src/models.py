@@ -40,8 +40,21 @@ class Follower(Base):
     def serialize(self): 
         return {
             "id": self.id,
-            "user_id": self.user_id,
+            "user_id": self.user_id
         }
+
+
+class Following(Base):
+    __tablename__ = 'following'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+
+    def serialize(self): 
+        return {
+            "id": self.id,
+            "user_id": self.user_id
+        }
+
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagramUML.png')
